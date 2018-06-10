@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Criteria
+import android.location.Location
+import android.location.LocationListener
 import android.location.LocationManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -23,7 +25,22 @@ import android.widget.Toast
 
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
+    override fun onLocationChanged(location: Location?) {
+
+    }
+
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+
+    }
+
+    override fun onProviderEnabled(provider: String?) {
+
+    }
+
+    override fun onProviderDisabled(provider: String?) {
+
+    }
 
     private lateinit var mMap: GoogleMap
     private lateinit var locationManager: LocationManager
@@ -47,42 +64,45 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
+
+
+
         mMap = googleMap
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        locationManager.getProvider("longitude")
-
-
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this)
         val provider = locationManager.getBestProvider(Criteria(), true)
 
-        val teste = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-        print("TESTE: ")
-        println(teste)
+        val location = locationManager.getLastKnownLocation(provider)
+        val latitude = location.latitude
+        val longitude = location.longitude
 
-        val per = PackageManager.PERMISSION_GRANTED
-        print("PERMISSION_GRANTED: ")
-        println(per)
+        println("Latitude: $latitude")
+        println("Longitude: $longitude")
 
-        val per2 = PackageManager.PERMISSION_DENIED
-        print("PERMISSION_DENIED: ")
-        println(per2)
 
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             val toast = Toast.makeText(applicationContext, "no permission", Toast.LENGTH_LONG)
             toast.show()
             return
+        } else {
+            mMap.isMyLocationEnabled = true
         }
 
 
 
         // Add a marker in Sydney and move the camera
 
-        val sydney = LatLng(-34.0, 151.0)
+        val sydney = LatLng(latitude, longitude)
 
         mMap.uiSettings.isZoomControlsEnabled = true
-
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
+}
+
+private fun LocationManager.requestLocationUpdates(gpS_PROVIDER: String, i: Int, i1: Int, mapsActivity: MapsActivity) {
+    Log.d("APP", "Request")
 }
