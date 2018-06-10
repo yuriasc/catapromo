@@ -4,45 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="20dp"
     android:orientation="vertical"
-    tools:context=".LoginActivity">
+    tools:context=".AddProdutoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/txtProduto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email" />
+            android:text="Produto" />
 
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/produto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:hint="Produto"
+            android:inputType="textPersonName" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/txtValor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Senha" />
+            android:text="Valor" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/valor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword" />
-
-
+            android:hint="Valor"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="false"
+            android:singleLine="false" />
     </LinearLayout>
 
     <LinearLayout
@@ -53,14 +54,12 @@
 
 
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/button"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
             android:background="@android:color/holo_blue_dark"
-            android:text="Login"
-            android:textSize="18sp" />
+            android:text="Salvar" />
     </LinearLayout>
 
 
