@@ -3,6 +3,7 @@ package br.com.codemoon.catapromo
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
@@ -22,7 +23,15 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import android.widget.Toast
-
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
+import org.json.JSONArray
+import org.json.JSONObject
+import java.net.URL
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
@@ -65,9 +74,37 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
      */
     override fun onMapReady(googleMap: GoogleMap) {
 
-
-
         mMap = googleMap
+
+        val queue = Volley.newRequestQueue(this)
+        val url = "https://www.codemoon.com.br/catapromo/produto"
+
+        val stringRequest = object : JsonObjectRequest(Request.Method.GET, url, null,
+                Response.Listener<JSONObject> { response ->
+
+                    val produtos = response.getString("produtos")
+                    val json = JSONArray(produtos)
+
+                    for (i in 0 until json.length()) {
+                        val jresponse = json.getString(i)
+                        val res = JSONObject(jresponse)
+
+                        val coordenadas = LatLng(res.getString("latitude").toDouble(), res.getString("longitude").toDouble())
+                        val valor = res.getString("valor")
+                        mMap.addMarker(MarkerOptions().position(coordenadas).title(res.getString("nome")).snippet("Preço: R$ $valor"))
+                        //Log.d("JSON", res.getString("nome"))
+                    }
+
+                },
+                Response.ErrorListener {
+                    Toast.makeText(this, "Erro ao gerar Lista", Toast.LENGTH_LONG).show()
+                })
+        {
+
+        }
+        queue.add(stringRequest)
+
+
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this)
@@ -76,10 +113,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
         val location = locationManager.getLastKnownLocation(provider)
         val latitude = location.latitude
         val longitude = location.longitude
-
-        println("Latitude: $latitude")
-        println("Longitude: $longitude")
-
 
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
@@ -91,15 +124,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
             mMap.isMyLocationEnabled = true
         }
 
-
-
-        // Add a marker in Sydney and move the camera
-
-        val sydney = LatLng(latitude, longitude)
+        val local = LatLng(latitude, longitude)
 
         mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.setMinZoomPreference(12.0f)
+
+        //val sydney = LatLng(-34.0, 151.0)
+       // mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(local))
+
+        val cameraPosition = CameraPosition.Builder()
+                .target(LatLng(latitude,longitude))      // Sets the center of the map to Mountain View
+                .zoom(15f)                   // Sets the zoom
+                //.bearing(90f)                // Sets the orientation of the camera to east
+                //.tilt(30f)                   // Sets the tilt of the camera to 30 degrees
+                .build()                   // Creates a CameraPosition from the builder
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+
+
     }
 }
 
