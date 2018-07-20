@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CataPromo.iml" filepath="$PROJECT_DIR$/CataPromo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/catapromo.iml" filepath="$PROJECT_DIR$/catapromo.iml" />
     </modules>
   </component>
 </project>

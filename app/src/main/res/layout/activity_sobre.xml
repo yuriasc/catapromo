@@ -11,18 +11,39 @@
     <TextView
         android:id="@+id/textView5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sobre" />
+        android:layout_height="63dp"
+        android:fontFamily="casual"
+        android:text="Sobre"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Texto sobre o Projeto" />
+        android:layout_height="99dp"
+        android:text="Projeto para o desenvolvimento de um aplicativo que agregue facilidade na busca de pequenas promoções para pessoas que tenham interesse por esse tipo de informação"
+        android:textAppearance="@style/TextAppearance.AppCompat.Tooltip" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Desenvolvedores"
+        android:textAlignment="center"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Dados do desenvolvedores" />
+        android:text="Yuri Canuto"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thiago Henrique"
+        android:textAlignment="center" />
 </LinearLayout>
